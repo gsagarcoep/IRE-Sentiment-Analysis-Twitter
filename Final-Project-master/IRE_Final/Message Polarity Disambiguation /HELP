@@ -1,0 +1,73 @@
+
+
+1. dataset_tweets.py - contains the training data tweets.
+
+2. Used the CMU parser to generate the file "parsed_tweets.txt"
+
+3. "get_tokens_or_tags.py" is used to obtain the tokens and tags separately.
+	
+	usage: 
+		python get_tokens_or_tags.py parsed_tweets.txt 0 > tokenized_tweet.txt
+		python get_tokens_or_tags.py parsed_tweets.txt 1 > tags_of_tweet.txt
+
+
+4. To normalize the url and username and convert the emoticons to proper text form, we use the following:
+
+[NOTE : WE NEED TO SEE FOR COMPRESSING THE ELONGATED WORDS] , AS OF NOW WE AREN'T COMPRESSING, HOWEVER WE ARE COUNTING THE NUMBER OF ELONGATED WORDS.
+
+	 python normalize_url_username_emoticon.py tokenized_tweet.txt > norm_tok_tweet.txt
+
+5. Adding the "_NEG" keyword for introducing the negation context.
+
+	python add_negation_tw.py norm_tok_tweet.txt > neg_norm_tok.txt
+
+6. The filename "count_capital.txt" is created when we run the file "convert_lower_and_count.py", which basically contains the number of capitalized words in any given tweet.
+
+	Also, using this script we get the tweets in the lowercase letters.
+
+	Usage: python convert_lower_and_count.py neg_norm_tok.txt > final_lnnt.txt
+
+7. Using the code "get_pos_count.py" we get the FV corresponding to the count of POS tags.
+	python get_pos_count.py tags_of_tweet.txt  > fv_pos_count.txt
+
+8. Using the code "cluster_fv.py" we frame the Feature Vector for each tweet corresponding to CMU's Twitter Word Cluster.
+	
+	python cluster_fv.py final_lnnt.txt > fv_of_cluster_tw.txt
+	
+	where cluster_fv.py is the python script, dataset_tweets.txt has the input tweets(one tweet per line).
+	Also the script uses the dictionary of words-to-cluster# mapping which is in the file named "cluster_IDS.txt"
+	
+9. new_punctuation_and_elog.py is used to count the punctuations and elongations, given a file containing tweets(one tweet per line).
+	usage: python new_punctuation_and_elog.py final_lnnt.txt > output_file
+
+10. Now, we need to form our feature vectors. So for that we need to build the unigram and bigram model using the script - "make_ngram_model.py".
+
+11.  python make_ngram_model.py final_lnnt.txt 1 > unigram_model.txt, creates the unigram model
+    python make_ngram_model.py final_lnnt.txt 2 > bigram_model.txt, creates the bigram model
+
+12. Further we shift the 2 models (unigram_model.txt and bigram_model.txt) and also "count_capital.txt" & "fv_pos_count.txt" in the "fvector" folder. 
+
+
+
+
+
+
+STEPS TO EXECUTE:
+****************
+
+1. Navigate to the directory $HOME/Dropbox/context_polarity_Task2/start1
+2. Now execute the bash scripts strictly in the following order:
+	bash preprocess_training.sh     ## preprocessing of training-tweets (training data)
+
+	bash build_model_featurefiles_training.sh	##prepares the unigram and bigram models, there f-vectors and other f-vectors on training data
+
+	bash features/make_classifier_training.sh	## merges all the feature vectors and preapres the svm-training-model
+
+	bash preprocess_testing.sh	## preprocessing of testing-tweets (testing data).
+
+	bash build_model_featurefiles_testing.sh 	## prepares the f-vectors on testing data and uses unigram and bigram model of training data.
+
+	bash features/classify_testing.sh	## finally use this to classify the test data which uses the svm-training-model.
+
+
+

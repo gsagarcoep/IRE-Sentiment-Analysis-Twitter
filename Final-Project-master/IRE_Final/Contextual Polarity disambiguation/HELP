@@ -1,0 +1,40 @@
+
+
+1. 1_get_length_tw.py gives the length of the segment given. (output of TweetNLP parser is given as input)..
+
+2. indices_tw.txt will give the index of the tokens to be considered for the marked instance.
+
+3. now, run get_tokens_tags.py (correct filename) to get the tags and tokens separately.
+
+python get_tokens_or_tags.py parsed_tweets.txt 0 > tokenized_tweet.txt
+python get_tokens_or_tags.py parsed_tweets.txt 1 > tags_of_tweet.txt
+
+4. Now normalize the tweets - normalize_url_uname.py : here we are considering url and username normalization.
+
+	(need to add emoticons separately)
+
+	python normalize_url_uname.py tokenized_tweet.txt > norm_toktw.txt
+
+5. Add negation:
+
+	python add_negation_tw.py norm_toktw.txt > neg_normtok_tw.txt
+
+6. Now separting mi and context - for tokens and tags separately.
+
+	#tokens:
+	python get_mi_token_tag.py neg_normtok_tw.txt 0 > final_context_tokens.txt	
+	python get_mi_token_tag.py neg_normtok_tw.txt 1 > final_mi_tokens.txt
+	
+	#tags:
+	python get_mi_token_tag.py tags_of_tweet.txt 0 > final_context_tags.txt
+	python get_mi_token_tag.py tags_of_tweet.txt 1 > final_mi_tags.txt
+	
+7. Now we have 2 different folders - mi/ and context/
+
+	mi/ contains for marked instance
+	context/ contains for the context of the tweet.
+
+8. Now move on to individual folders.. 
+
+	
+		

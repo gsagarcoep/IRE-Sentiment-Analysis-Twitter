@@ -1,0 +1,53 @@
+
+
+Running individual features for both the marked instance and context
+
+1. python count_emoticon.py final_mi_tokens.txt
+
+	So count_emoticon_class.txt is created.
+
+2. python convert_lower_and_count.py final_mi_tokens.txt > lower_mi_tok.txt
+
+	The marked instance is converted to lower case.
+
+3.  Running the previous script file - count_capital.txt is created.
+
+4. This is for counting pos tags for the tweet tags:
+
+	python get_pos_count.py final_mi_tags.txt > fv_pos_count.txt  
+
+5. for punctuation and elongation:
+
+	python new_punctuation_and_elog.py lower_mi_tok.txt > fv_punct_and_elog.txt
+
+## we are not doing cluster in this part
+
+
+6. Now doing the score part:
+
+	python ~/Dropbox/dictionaries/get_sent_score_unigram.py lower_mi_tok.txt $HOME > fv_score_unigram.txt
+
+	 python ~/Dropbox/dictionaries/get_sent_score_bigram.py lower_mi_tok.txt $HOME > fv_score_bigram.txt
+
+7. building the unigram model,
+
+	python make_ngram_model.py lower_mi_tok.txt 1 > unigram_model.txt
+	python make_ngram_model.py lower_mi_tok.txt 2 > bigram_model.txt
+
+
+8. constructing unigram:
+
+	python construct_unigram.py lower_mi_tok.txt > fv_svm_1_unigram.txt
+	
+	a=`wc -l < unigram_model.txt`
+
+	python construct_bigram.py lower_mi_tok.txt $a > fv_svm_2_bigram.txt
+
+9. paste count_capital.txt count_emoticon_class.txt fv_pos_count.txt fv_punct_and_elog.txt fv_score_unigram.txt fv_score_bigram.txt -d " " > fv_345678.txt
+
+	b=`wc -l < bigram_model.txt`
+	let c=$a+$b
+
+10. python merge_3to9.py  fv_345678.txt $c  > fv_svm_3to8.txt
+
+

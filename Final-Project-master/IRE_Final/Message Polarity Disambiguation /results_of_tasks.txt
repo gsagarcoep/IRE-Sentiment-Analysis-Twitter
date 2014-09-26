@@ -1,0 +1,16 @@
+Message Polarity 
+NB wih unigrams: 54% (given in previous submitted docs)
+SVM with unigram and bigrams and thresholding: Accuracy = 64.3718% (374/581) (classification)
+SVM with unigrams and bigrams wihtout thresholding: Accuracy = 66.6093% (387/581) (classification)
+SVM with trigrams: Accuracy = 65.4045% (380/581) (classification)
+SVM without sentiment scores: Accuracy = 64.0275% (372/581) (classification)
+SVM without bigrams but rest features included: Accuracy = 67.2978% (391/581) (classification)
+
+SVM + only unigrams : Accuracy = 63.8554% (371/581) (classification) # fscore in features/fscore_ONLY_unigram.txt
+
+
+
+Context Polarity Disambiguation
+SVM with bigrams: Accuracy = 85.9 % (859/1000) (classification)
+SVM with bigrams Accuracy = 87.71% (8771/10000) (classification)
+
